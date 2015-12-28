@@ -14,19 +14,20 @@ class QuestionController < ApplicationController
 
   def quiz
     render nothing: true
-    @question = params[:question]
 
+    @question = params[:question]
     @id = params[:id]
     @level = params[:level]
+
     file = File.read("db/poems-full.json")
     @hash = JSON.parse(file)
     @answer = ""
     case @level
-    when '1'
+    when 1
       @answer = level1(@question)
-    when '2'
+    when 2
       @answer = level2(@question)
-    when '3'
+    when 3
       @answer = level3(@question)
     end
     
