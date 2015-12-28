@@ -47,10 +47,12 @@ class QuestionController < ApplicationController
     question.lstrip.rstrip.downcase!
     answer = ''
     @hash.each do |k|
-       k[1].map do |str|
+      k[0] = k[0].delete("!")
+      
+      k[1].map do |str|
         str.downcase!
         if str.include?(question) then
-          answer = k[0].lstrip.rstrip
+          answer = k[0].lstrip.rstrip.downcase
           break
         end
       end
