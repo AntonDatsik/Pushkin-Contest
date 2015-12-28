@@ -34,7 +34,7 @@ class QuestionController < ApplicationController
     uri = URI("http://pushkin.rubyroid.by/quiz")
 
     parameters = {
-      answer: '',
+      answer: @answer,
       token: @token,
       task_id:  @id
     }
@@ -52,7 +52,7 @@ class QuestionController < ApplicationController
       k[1].map do |str|
         str.downcase!
         if str.include?(question) then
-          answer = k[0].lstrip.rstrip
+          answer = UnicodeUtils.downcase(k[0]).lstrip.rstrip
           break
         end
       end
@@ -62,7 +62,7 @@ class QuestionController < ApplicationController
 
   def level2(question)
     answer = ''
-    @question.downcase!
+    question.downcase!
     q = question.split('%word%')
 
     @hash.each do |k|
