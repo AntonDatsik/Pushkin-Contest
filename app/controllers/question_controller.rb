@@ -23,7 +23,7 @@ class QuestionController < ApplicationController
     @answer = ""
     case @level
     when '1'
-      @answer = level1
+      @answer = level1(@question)
     when '2'
       @answer = level2(@question)
     when '3'
@@ -43,12 +43,14 @@ class QuestionController < ApplicationController
   end
 
   private
-  def level1
+  def level1(question)
+    question.lstrip.rstrip.downcase!
     answer = ''
     @hash.each do |k|
        k[1].map do |str|
-        if str.include?(@question) then
-          answer = k[0]
+        str.downcase!
+        if str.include?(question) then
+          answer = k[0].lstrip.rstrip
           break
         end
       end
