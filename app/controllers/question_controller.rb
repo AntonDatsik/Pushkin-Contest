@@ -52,7 +52,7 @@ class QuestionController < ApplicationController
       k[1].map do |str|
         str.downcase!
         if str.include?(question) then
-          answer = k[0].lstrip.rstrip.downcase
+          answer = k[0].lstrip.rstrip
           break
         end
       end

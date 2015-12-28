@@ -170,6 +170,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
+    unicode_utils (1.4.0)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -202,6 +203,7 @@ DEPENDENCIES
   therubyracer
   turbolinks
   uglifier
+  unicode_utils
   web-console (~> 2.0)
 
 BUNDLED WITH
