@@ -46,13 +46,13 @@ class QuestionController < ApplicationController
 
   private
   def level1(question)
-    # question = UnicodeUtils.downcase(question.lstrip.rstrip)
+    question = UnicodeUtils.downcase(question.lstrip.rstrip)
     answer = ''
     @hash.each do |k|     
       k[1].map do |str|
         # arr = question.split(" ")
         # question = arr[arr.count-2] + " " + arr[arr.count-1]
-        # str = UnicodeUtils.downcase(str)
+        str = UnicodeUtils.downcase(str)
         if str.include?(question) then
           answer = k[0]
           return answer
