@@ -2,6 +2,7 @@ PushkinContest::Application.routes.draw do
   post '/registration', to: 'question#registration'
   get '/registration', to: 'question#registration'
   post '/quiz', to: 'question#quiz'
+  get '/quiz', to: 'question#quiz'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
