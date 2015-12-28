@@ -53,7 +53,7 @@ class QuestionController < ApplicationController
         question = arr[arr.count-2] + " " + arr[arr.count-1]
         str = UnicodeUtils.downcase(str)
         if str.include?(question) then
-          answer = UnicodeUtils.downcase(k[0]).lstrip.rstrip
+          answer = k[0].lstrip.rstrip
           break
         end
       end
