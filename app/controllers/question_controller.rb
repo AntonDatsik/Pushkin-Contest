@@ -13,6 +13,7 @@ class QuestionController < ApplicationController
 
 
   def quiz
+    render nothing: true
     @question = params[:question]
 
     @id = params[:id]
@@ -29,7 +30,7 @@ class QuestionController < ApplicationController
       @answer = level3(@question)
     end
     
-    @token = Token.last
+    @token = Token.last.token
     uri = URI("http://pushkin.rubyroid.by/quiz")
 
     parameters = {
