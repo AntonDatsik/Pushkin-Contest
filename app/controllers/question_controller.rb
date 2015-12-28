@@ -34,7 +34,7 @@ class QuestionController < ApplicationController
     uri = URI("http://pushkin.rubyroid.by/quiz")
 
     parameters = {
-      answer: @answer,
+      answer: '',
       token: @token,
       task_id:  @id
     }
