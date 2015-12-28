@@ -44,13 +44,11 @@ class QuestionController < ApplicationController
 
   private
   def level1(question)
-    question.lstrip.rstrip.downcase!
+    question = UnicodeUtils.downcase(question.lstrip.rstrip)
     answer = ''
-    @hash.each do |k|
-      k[0] = k[0].delete("!")
-      
+    @hash.each do |k|     
       k[1].map do |str|
-        str.downcase!
+        str = UnicodeUtils.downcase(str)
         if str.include?(question) then
           answer = UnicodeUtils.downcase(k[0]).lstrip.rstrip
           break
