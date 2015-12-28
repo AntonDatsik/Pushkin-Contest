@@ -3,8 +3,8 @@ class QuestionController < ApplicationController
 
   def registration
     q = params[:question]
-    # @token = Token.new(token: params[:token])
-    # @token.save
+    @token = Token.new(token: params[:token])
+    @token.save
     file = File.read("db/poems-full.json")
     hash = JSON.parse(file)
     @answer = 'снежные'
