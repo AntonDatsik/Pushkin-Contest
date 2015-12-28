@@ -55,11 +55,10 @@ class QuestionController < ApplicationController
         str = UnicodeUtils.downcase(str)
         if str.include?(question) then
           answer = k[0].lstrip.rstrip
-          break
+          return answer
         end
       end
     end
-    answer
   end
 
   def level2(question)
