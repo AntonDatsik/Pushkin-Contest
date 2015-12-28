@@ -58,7 +58,7 @@ class QuestionController < ApplicationController
   def level2(question)
     answer = ''
     @question.downcase!
-    q = question.split('word')
+    q = question.split('%word%')
 
     @hash.each do |k|
       k[1].map do |str|
