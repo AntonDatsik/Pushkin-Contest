@@ -50,11 +50,11 @@ class QuestionController < ApplicationController
     answer = ''
     @hash.each do |k|     
       k[1].map do |str|
-        # arr = question.split(" ")
-        # question = arr[arr.count-2] + " " + arr[arr.count-1]
+        arr = question.split(" ")
+        question = arr[arr.count-2] + " " + arr[arr.count-1]
         str = UnicodeUtils.downcase(str)
         if str.include?(question) then
-          answer = k[0]
+          answer = k[0].lstrip.rstrip
           return answer
         end
       end
