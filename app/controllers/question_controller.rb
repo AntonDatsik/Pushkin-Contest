@@ -189,7 +189,7 @@ class QuestionController < ApplicationController
 
     q.map do |que|
     que = que.delete(".").lstrip.rstrip
-    hash.each do |k| 
+    @hash.each do |k| 
 
     question = que.split("%word%")
     question = question.map do |i|
