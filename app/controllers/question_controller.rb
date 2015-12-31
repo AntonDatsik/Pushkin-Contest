@@ -21,7 +21,7 @@ class QuestionController < ApplicationController
 
     file = File.read("db/poems-full.json")
     @hash = JSON.parse(file)
-    @answer = ""
+    @answer= ''
     case @level
     when 1
       @answer = level1(@question)
@@ -230,6 +230,7 @@ class QuestionController < ApplicationController
 
     answer = answer.uniq
     answer = answer.join(",")
+    return answer.to_s
   end
 
   def level4
