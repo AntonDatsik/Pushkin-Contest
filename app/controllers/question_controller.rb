@@ -313,72 +313,72 @@ class QuestionController < ApplicationController
     end
   end
 
-  # def level6(temp_question)
-  #   q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
+  def level6(temp_question)
+    q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
 
-  #   temp_str = ""
+    temp_str = ""
 
-  #   @hash.each do |k| 
+    @hash.each do |k| 
 
-  #      k[1].each do |str|
-  #         temp_str = str
-  #         str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
+       k[1].each do |str|
+          temp_str = str
+          str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
 
-  #         if str.chars.sort == q.chars.sort
-  #            answer = temp_str
-  #            return answer
-  #         end     
-  #      end
+          if str.chars.sort == q.chars.sort
+             answer = temp_str
+             return answer
+          end     
+       end
 
-  #   end
-  # end
+    end
+  end
 
-  # def level7(temp_question)
-  #   q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
+  def level7(temp_question)
+    q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
 
-  #   temp_str = ""
+    temp_str = ""
 
-  #   @hash.each do |k| 
+    @hash.each do |k| 
 
-  #      k[1].each do |str|
-  #         temp_str = str
-  #         str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
+       k[1].each do |str|
+          temp_str = str
+          str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
 
-  #         if str.chars.sort == q.chars.sort
-  #            answer = temp_str
-  #            return answer
-  #         end     
-  #      end
-  #   end
+          if str.chars.sort == q.chars.sort
+             answer = temp_str
+             return answer
+          end     
+       end
+    end
     
-  # end
+  end
 
-  # def level8(temp_question)
-  #   q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
+  def level8(temp_question)
+    q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
 
-  #   temp_str = ""
+    temp_str = ""
 
-  #   @hash.each do |k| 
+    @hash.each do |k| 
 
-  #     k[1].each do |str|
-  #       temp_str = str
-  #       k = 0
-  #       str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
+      k[1].each do |str|
+        temp_str = str
+        k = 0
+        str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
 
-  #       for i in 0..str.chars.count-1 do
-  #          if str.chars.sort[i] == q.chars.sort[i]
-  #             k = k + 1
-  #          end
+        for i in 0..str.chars.count-1 do
+           if str.chars.sort[i] == q.chars.sort[i]
+              k = k + 1
+           end
 
-  #          if k > 7
-  #             answer = temp_str
-  #             return answer
-  #          end
+           if k > 7
+              answer = temp_str
+              return answer
+           end
 
-  #       end
-  #     end
-  #   end
+        end
+      end
+    end
 
-  # end
+  end
 
 end
