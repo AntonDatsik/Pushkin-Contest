@@ -90,7 +90,6 @@ GEM
     ntlm-http (0.1.1)
     pg (0.18.4)
     polyglot (0.3.5)
-    puma (2.15.3)
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -193,7 +192,6 @@ DEPENDENCIES
   jquery-rails
   mechanize
   pg
-  puma
   rails
   rails_12factor
   rspec-rails
