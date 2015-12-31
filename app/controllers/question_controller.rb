@@ -350,6 +350,7 @@ class QuestionController < ApplicationController
           end     
        end
     end
+    
   end
 
   def level8(temp_question)
@@ -377,6 +378,7 @@ class QuestionController < ApplicationController
         end
       end
     end
+
   end
 
 end
