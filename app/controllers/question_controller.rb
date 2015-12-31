@@ -299,6 +299,7 @@ class QuestionController < ApplicationController
   end
 
   def level5(temp_question)
+    answer = ''
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip
 
     question = q.split(" ")
@@ -314,8 +315,8 @@ class QuestionController < ApplicationController
              end         
           end
        end
-
     end
+    answer
   end
 
   def level6(temp_question)
@@ -324,11 +325,9 @@ class QuestionController < ApplicationController
     temp_str = ""
 
     @hash.each do |k| 
-
        k[1].each do |str|
           temp_str = str
           str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
-
           if str.chars.sort == q.chars.sort
              answer = temp_str
              return answer
