@@ -321,7 +321,7 @@ class QuestionController < ApplicationController
 
   def level6(temp_question)
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
-
+    answer = ''
     temp_str = ""
 
     @hash.each do |k| 
@@ -335,6 +335,7 @@ class QuestionController < ApplicationController
        end
 
     end
+    answer
   end
 
   def level7(temp_question)
