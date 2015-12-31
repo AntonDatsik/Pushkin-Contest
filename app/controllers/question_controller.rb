@@ -71,41 +71,46 @@ class QuestionController < ApplicationController
     end
   end
 
-  def level2(question)
+  def level2(temp_question)
     answer = ''
-    question.downcase!
-    q = question.split('%word%')
+    question = temp_question.split("%word%")
+    question = question.map do |i|
+      i = UnicodeUtils.downcase(i.delete("!").delete(",").lstrip.rstrip)
+    end
 
-    @hash.each do |k|
+    temp_str = []
+    temp_q = temp_question.split(" ")
+    temp_q = temp_q.map do |s|
+      s = s.delete(",").delete("!")
+    end
+
+    @hash.each do |k| 
       k[1].map do |str|
-        str.downcase!
-        if q.count >= 2 then
-          if str.include?(q[0]) || str.include?(q[1]) then
-            question_words = question.split(" ")
-            str_words = str.split(" ")
-              
-            for i in 0..str_words.count - 1 
-              if !str_words[i].eql?(question_words[i])
-                answer = str_words[i].delete(",").delete(".").delete("?")
-                return answer
-              end
-            end
-          else
-            if str.include?(q[0]) then
-              question_words = question.split(" ")
-              str_words = str.split(" ")
+        str = str.delete(".")
+        if question.count >= 2
+          str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
+          if str.include?(question[0]) && str.include?(question[1])
 
-              for i in 0..str_words.count - 1 
-                if !str_words[i].eql?(question_words[i])
-                  answer = str_words[i].delete(",").delete(".").delete("?")
-                  return answer
-                end
+              temp_str = str.split(" ")
+              temp_str = temp_str.map do |s|
+                s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
               end
-            end
-          end
+              answer = UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
+              return answer
+          end 
+        elsif question.count < 2
+          str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
+          if str.include?(question[0]) 
+              temp_str = str.split(" ")
+              temp_str = temp_str.map do |s|
+                s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
+              end
+              answer = UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
+              return answer
+          end 
         end
       end
-    end
+    end  
 
     answer
   end
@@ -350,7 +355,7 @@ class QuestionController < ApplicationController
           end     
        end
     end
-    
+
   end
 
   def level8(temp_question)
