@@ -77,7 +77,7 @@ class QuestionController < ApplicationController
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
     
-    re = Regexp.new line
+    re = Regexp.new line.lstrip.rstrip
     answer = $poems.find {|e| re =~ e["text"]}["title"]
     answer
   end
