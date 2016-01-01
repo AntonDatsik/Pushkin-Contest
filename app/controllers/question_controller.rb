@@ -79,7 +79,7 @@ class QuestionController < ApplicationController
     
     re = Regexp.new line.lstrip.rstrip
     answer = $poems.find {|e| re =~ e["text"]}["title"]
-    answer
+    answer.slice(0, answer.length)
   end
 
   def level2(temp_question)
