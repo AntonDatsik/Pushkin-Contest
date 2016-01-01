@@ -19,8 +19,6 @@ class QuestionController < ApplicationController
     @id = params[:id]
     @level = params[:level]
 
-    file = File.read("db/poems-full.json")
-    @hash = JSON.parse(file)
     @answer= ''
     case @level
     when 1
@@ -55,23 +53,39 @@ class QuestionController < ApplicationController
   end
 
   private
-  def level1(question)
-    question = UnicodeUtils.downcase(question.lstrip.rstrip)
-    answer = ''
-    @hash.each do |k|     
-      k[1].map do |str|
-        arr = question.split(" ")
-        question = arr[arr.count-2] + " " + arr[arr.count-1]
-        str = UnicodeUtils.downcase(str)
-        if str.include?(question) then
-          answer = k[0].lstrip.rstrip
-          return answer
-        end
-      end
-    end
+  # def level1(question)
+
+  #   file = File.read("db/poems-full.json")
+  #   @hash = JSON.parse(file)
+
+  #   question = UnicodeUtils.downcase(question.lstrip.rstrip)
+  #   answer = ''
+  #   @hash.each do |k|     
+  #     k[1].map do |str|
+  #       arr = question.split(" ")
+  #       question = arr[arr.count-2] + " " + arr[arr.count-1]
+  #       str = UnicodeUtils.downcase(str)
+  #       if str.include?(question) then
+  #         answer = k[0].lstrip.rstrip
+  #         return answer
+  #       end
+  #     end
+  #   end
+  # end
+
+  def level1(line)
+    f = File.open( "db/poems.json", "r" )
+    $poems = JSON.load( f )
+    $poems_hash = Hash[$poems.map(&:values).map(&:flatten)]
+    re = Regexp.new line
+    $poems.find {|e| re =~ e["text"]}["title"]
   end
 
   def level2(temp_question)
+
+    file = File.read("db/poems-full.json")
+    @hash = JSON.parse(file)
+
     answer = ''
     question = temp_question.split("%word%")
     question = question.map do |i|
@@ -198,6 +212,10 @@ class QuestionController < ApplicationController
   # end
 
   def level3(temp_question)
+
+    file = File.read("db/poems-full.json")
+    @hash = JSON.parse(file)
+
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.split("\n")
 
     answer = []
@@ -249,6 +267,10 @@ class QuestionController < ApplicationController
   end
 
   def level4(temp_question)
+
+    file = File.read("db/poems-full.json")
+    @hash = JSON.parse(file)
+
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.split("\n")
 
     answer = []
@@ -299,6 +321,10 @@ class QuestionController < ApplicationController
   end
 
   def level5(temp_question)
+
+    file = File.read("db/poems-full.json")
+    @hash = JSON.parse(file)
+
     answer = ''
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip
 
@@ -320,6 +346,10 @@ class QuestionController < ApplicationController
   end
 
   def level6(temp_question)
+
+    file = File.read("db/poems-full.json")
+    @hash = JSON.parse(file)
+
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
     answer = ''
     temp_str = ""
@@ -339,6 +369,10 @@ class QuestionController < ApplicationController
   end
 
   def level7(temp_question)
+
+    file = File.read("db/poems-full.json")
+    @hash = JSON.parse(file)
+
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
 
     temp_str = ""
@@ -359,6 +393,10 @@ class QuestionController < ApplicationController
   end
 
   def level8(temp_question)
+
+    file = File.read("db/poems-full.json")
+    @hash = JSON.parse(file)
+
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
 
     temp_str = ""
