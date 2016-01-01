@@ -13,7 +13,7 @@ class QuestionController < ApplicationController
 
 
   def quiz
-    render nothing: true
+    # render nothing: true
 
     @question = params[:question]
     @id = params[:id]
@@ -47,9 +47,9 @@ class QuestionController < ApplicationController
       token: @token,
       task_id:  @id
     }
-
-    
-    Net::HTTP.post_form(uri, parameters) 
+   
+    # Net::HTTP.post_form(uri, parameters) 
+    render json: {answer: @answer}
   end
 
   private
