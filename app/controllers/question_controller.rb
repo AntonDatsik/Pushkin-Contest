@@ -13,7 +13,7 @@ class QuestionController < ApplicationController
 
 
   def quiz
-    # render nothing: true
+    render nothing: true
 
     @question = params[:question]
     @id = params[:id]
@@ -48,8 +48,7 @@ class QuestionController < ApplicationController
       task_id:  @id
     }
    
-    # Net::HTTP.post_form(uri, parameters) 
-    render json: {answer: @answer}
+    Net::HTTP.post_form(uri, parameters) 
   end
 
   private
@@ -79,55 +78,62 @@ class QuestionController < ApplicationController
     
     re = Regexp.new line.lstrip.rstrip
     answer = $poems.find {|e| re =~ e["text"]}["title"]
-    answer.slice(0, answer.length)
+    answer
   end
 
-  def level2(temp_question)
+  # def level2(temp_question)
 
-    file = File.read("db/poems-full.json")
-    @hash = JSON.parse(file)
+  #   file = File.read("db/poems-full.json")
+  #   @hash = JSON.parse(file)
 
-    answer = ''
-    question = temp_question.split("%word%")
-    question = question.map do |i|
-      i = UnicodeUtils.downcase(i.delete("!").delete(",").lstrip.rstrip)
-    end
+  #   answer = ''
+  #   question = temp_question.split("%word%")
+  #   question = question.map do |i|
+  #     i = UnicodeUtils.downcase(i.delete("!").delete(",").lstrip.rstrip)
+  #   end
 
-    temp_str = []
-    temp_q = temp_question.split(" ")
-    temp_q = temp_q.map do |s|
-      s = s.delete(",").delete("!")
-    end
+  #   temp_str = []
+  #   temp_q = temp_question.split(" ")
+  #   temp_q = temp_q.map do |s|
+  #     s = s.delete(",").delete("!")
+  #   end
 
-    @hash.each do |k| 
-      k[1].map do |str|
-        str = str.delete(".")
-        if question.count >= 2
-          str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
-          if str.include?(question[0]) && str.include?(question[1])
+  #   @hash.each do |k| 
+  #     k[1].map do |str|
+  #       str = str.delete(".")
+  #       if question.count >= 2
+  #         str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
+  #         if str.include?(question[0]) && str.include?(question[1])
 
-              temp_str = str.split(" ")
-              temp_str = temp_str.map do |s|
-                s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
-              end
-              answer = UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
-              return answer
-          end 
-        elsif question.count < 2
-          str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
-          if str.include?(question[0]) 
-              temp_str = str.split(" ")
-              temp_str = temp_str.map do |s|
-                s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
-              end
-              answer = UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
-              return answer
-          end 
-        end
-      end
-    end  
+  #             temp_str = str.split(" ")
+  #             temp_str = temp_str.map do |s|
+  #               s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
+  #             end
+  #             answer = UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
+  #             return answer
+  #         end 
+  #       elsif question.count < 2
+  #         str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
+  #         if str.include?(question[0]) 
+  #             temp_str = str.split(" ")
+  #             temp_str = temp_str.map do |s|
+  #               s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
+  #             end
+  #             answer = UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
+  #             return answer
+  #         end 
+  #       end
+  #     end
+  #   end  
 
-    answer
+  #   answer
+  # end
+  def level2(line)
+    f = File.open( "poems.json", "r" )
+    $poems = JSON.load( f )
+    re = Regexp.new line.gsub('%WORD%', '([А-Яа-я]+)')
+    poem = $poems.find {|e| re =~ e["text"]}
+    re.match(poem["text"])[1]
   end
 
   # def level3(question)
