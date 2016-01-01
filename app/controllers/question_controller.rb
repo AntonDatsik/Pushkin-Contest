@@ -21,7 +21,7 @@ class QuestionController < ApplicationController
 
     @answer= ''
     case @level
-    when '1'
+    when 1
       @answer = level1(@question)
     when 2
       @answer = level2(@question)
@@ -129,7 +129,7 @@ class QuestionController < ApplicationController
   #   answer
   # end
   def level2(line)
-    f = File.open( "poems.json", "r" )
+    f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
     re = Regexp.new line.gsub('%WORD%', '([А-Яа-я]+)')
     poem = $poems.find {|e| re =~ e["text"]}
