@@ -78,7 +78,8 @@ class QuestionController < ApplicationController
     $poems = JSON.load( f )
     
     re = Regexp.new line
-    $poems.find {|e| re =~ e["text"]}["title"]
+    answer = $poems.find {|e| re =~ e["text"]}["title"]
+    answer
   end
 
   def level2(temp_question)
