@@ -77,8 +77,9 @@ class QuestionController < ApplicationController
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
     $poems_hash = Hash[$poems.map(&:values).map(&:flatten)]
+
     re = Regexp.new line
-    $poems.find {|e| re =~ e["text"]}["title"]
+    $poems_hash.find {|key, val| re =~ val}[0]
   end
 
   def level2(temp_question)
