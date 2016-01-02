@@ -39,7 +39,7 @@ class QuestionController < ApplicationController
       @answer = level8(@question)
     end
     
-    @token = Token.last.token
+    @token = Token.first.token
     uri = URI("http://pushkin.rubyroid.by/quiz")
 
     parameters = {
