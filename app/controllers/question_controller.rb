@@ -13,7 +13,7 @@ class QuestionController < ApplicationController
 
 
   def quiz
-    render nothing: true
+    # render nothing: true
 
     @question = params[:question]
     @id = params[:id]
@@ -25,7 +25,7 @@ class QuestionController < ApplicationController
       @answer = level1(@question)
     when 2
       @answer = level2(@question)
-    when 3
+    when '3'
       @answer = level3(@question)
     when 4
       @answer = level4(@question)
@@ -48,7 +48,8 @@ class QuestionController < ApplicationController
       task_id:  @id
     }
    
-    Net::HTTP.post_form(uri, parameters) 
+    # Net::HTTP.post_form(uri, parameters) 
+    render json: {answer: @answer}
   end
 
   def level1(line)
@@ -176,7 +177,6 @@ class QuestionController < ApplicationController
     re = Regexp.new line.gsub('%WORD%', '([А-Яа-я]+)')
     poem = $poems.find {|e| re =~ e["text"]}
     temp_answer = re.match(poem["text"])
-    answer = temp_answer[1] + ',' + temp_answer[2]
   end
 
   def level4(temp_question)
