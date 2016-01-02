@@ -21,7 +21,7 @@ class QuestionController < ApplicationController
 
     @answer= ''
     case @level
-    when 1
+    when '1'
       @answer = level1(@question)
     when 2
       @answer = level2(@question)
