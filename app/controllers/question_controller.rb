@@ -144,57 +144,27 @@ class QuestionController < ApplicationController
   end
 
   def level4(temp_question)
+    f = File.open( "db/poems.json", "r" )
+    $poems = JSON.load( f )
+    temp = lines.split("\n")
 
-    file = File.read("db/poems-full.json")
-    @hash = JSON.parse(file)
+    line1 = temp[0]
+    line2 = temp[1]
+    line3 = temp[2]
 
-    q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.split("\n")
+    re = Regexp.new line1.gsub('%WORD%', '([А-Яа-я]+)')
+    poem = $poems.find {|e| re =~ e["text"]}
+    temp_answer1 = re.match(poem["text"])[1]
 
-    answer = []
+    poem_text = poem["text"]
+    
+    re = Regexp.new line2.gsub('%WORD%', '([А-Яа-я]+)')
+    temp_answer2 = re.match(poem_text)[1]
 
-    q.map do |que|
-    que = que.delete(".").lstrip.rstrip
-    @hash.each do |k| 
+    re = Regexp.new line3.gsub('%WORD%', '([А-Яа-я]+)')
+    temp_answer3 = re.match(poem_text)[1]
 
-    question = que.split("%word%")
-    question = question.map do |i|
-      i = UnicodeUtils.downcase(i.delete("!").delete(",").lstrip.rstrip)
-    end
-
-    temp_str = []
-    temp_q = que.split(" ")
-    temp_q = temp_q.map do |s|
-      s = s.delete(",").delete("!")
-    end 
-
-       k[1].each do |str|
-        if question.count >= 2
-          str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
-          if str.include?(question[0]) && str.include?(question[1])
-
-              temp_str = str.split(" ")
-              temp_str = temp_str.map do |s|
-                s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
-              end
-              answer << UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
-          end 
-        elsif question.count < 2
-          str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
-          if str.include?(question[0]) 
-              temp_str = str.split(" ")
-              temp_str = temp_str.map do |s|
-                s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
-              end
-              answer << UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
-          end 
-        end
-       end
-
-    end
-    end
-
-    answer = answer.uniq
-    answer = answer.join(",")
+    answer = temp_answer1 + ',' + temp_answer2 + ',' + temp_answer3
   end
 
   def level5(temp_question)
