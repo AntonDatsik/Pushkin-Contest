@@ -176,7 +176,7 @@ class QuestionController < ApplicationController
           end     
        end
     end
-
+    answer
   end
 
   def level8(temp_question)
