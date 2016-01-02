@@ -113,19 +113,25 @@ class QuestionController < ApplicationController
   end
 
   def level5(line)
-    f = File.open( "db/poems.json", "r" )
-    $poems = JSON.load( f )
-    $poems_hash = Hash[$poems.map(&:values).map(&:flatten)]
+    q = UnicodeUtils.downcase(@q).lstrip.rstrip
 
-    words = line.scan /[А-Яа-я]+/
-    re = Regexp.new ('(?:' + words.map { |word| line.gsub(word, '([А-Яа-я]+)')}.join('|') + ')')
-    matches = re.match($poems_hash.find {|key, val| re =~ val}[1])
-    index = matches.to_a.drop(1).index {|x| !x.nil?}
-    "#{matches[index + 1]},#{words[index - 1]}"
+    question = q.split(" ")
+
+    @hash.each do |k| 
+      k[1].each do |str|
+        if question.count > 2
+           str = UnicodeUtils.downcase(str)
+           if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
+              answer = (str.split(" ") - question)[0].delete(",") + "," + (question - str.split(" "))[0].delete(",")  
+              return answer
+           end         
+        end
+      end
+    end
+    answer
   end
 
   def level6(temp_question)
-
     file = File.read("db/poems-full.json")
     @hash = JSON.parse(file)
 
