@@ -113,13 +113,13 @@ class QuestionController < ApplicationController
   end
 
   def level5(line)
-
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
+    $poems_hash = Hash[$poems.map(&:values).map(&:flatten)]
 
     words = line.scan /[А-Яа-я]+/
-    re = Regexp.new ('(?:' + words.map { |word| line.gsub(word, '([А-Яа-я]*)')}.join('|') + ')')
-    matches = re.match ($poems.find {|e| re =~ e["text"]})["text"]
+    re = Regexp.new ('(?:' + words.map { |word| line.gsub(word, '([А-Яа-я]+)')}.join('|') + ')')
+    matches = re.match($poems_hash.find {|key, val| re =~ val}[1])
     index = matches.to_a.drop(1).index {|x| !x.nil?}
     "#{matches[index + 1]},#{words[index - 1]}"
   end
