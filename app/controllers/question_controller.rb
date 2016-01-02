@@ -13,7 +13,7 @@ class QuestionController < ApplicationController
 
 
   def quiz
-    render nothing: true
+    # render nothing: true
 
     @question = params[:question]
     @id = params[:id]
@@ -47,39 +47,41 @@ class QuestionController < ApplicationController
       token: @token,
       task_id:  @id
     }
+
+    render json: {answer: @answer}
    
-    Net::HTTP.post_form(uri, parameters) 
+    # Net::HTTP.post_form(uri, parameters) 
   end
 
-  private
-  def level1(question)
+  # private
+  # def level1(question)
 
-    file = File.read("db/poems-full.json")
-    @hash = JSON.parse(file)
+  #   file = File.read("db/poems-full.json")
+  #   @hash = JSON.parse(file)
 
-    question = UnicodeUtils.downcase(question.lstrip.rstrip)
-    answer = ''
-    @hash.each do |k|     
-      k[1].map do |str|
-        arr = question.split(" ")
-        question = arr[arr.count-2] + " " + arr[arr.count-1]
-        str = UnicodeUtils.downcase(str)
-        if str.include?(question) then
-          answer = k[0].lstrip.rstrip
-          return answer
-        end
-      end
-    end
-  end
-
-  # def level1(line)
-  #   f = File.open( "db/poems.json", "r" )
-  #   $poems = JSON.load( f )
-    
-  #   re = Regexp.new line.lstrip.rstrip
-  #   answer = $poems.find {|e| re =~ e["text"]}["title"]
-  #   answer
+  #   question = UnicodeUtils.downcase(question.lstrip.rstrip)
+  #   answer = ''
+  #   @hash.each do |k|     
+  #     k[1].map do |str|
+  #       arr = question.split(" ")
+  #       question = arr[arr.count-2] + " " + arr[arr.count-1]
+  #       str = UnicodeUtils.downcase(str)
+  #       if str.include?(question) then
+  #         answer = k[0].lstrip.rstrip
+  #         return answer
+  #       end
+  #     end
+  #   end
   # end
+
+  def level1(line)
+    f = File.open( "db/poems.json", "r" )
+    $poems = JSON.load( f )
+    
+    re = Regexp.new line.lstrip.rstrip
+    answer = $poems.find {|e| re =~ e["text"]}["title"]
+    answer
+  end
 
   # def level2(temp_question)
 
