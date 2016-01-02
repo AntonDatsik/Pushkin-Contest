@@ -69,61 +69,6 @@ class QuestionController < ApplicationController
     re.match(poem["text"])[1]
   end
 
-  # def level3(temp_question)
-
-  #   file = File.read("db/poems-full.json")
-  #   @hash = JSON.parse(file)
-
-  #   q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.split("\n")
-
-  #   answer = []
-
-  #   q.map do |que|
-  #   que = que.delete(".").lstrip.rstrip
-  #   @hash.each do |k| 
-
-  #   question = que.split("%word%")
-  #   question = question.map do |i|
-  #     i = UnicodeUtils.downcase(i.delete("!").delete(",").lstrip.rstrip)
-  #   end
-
-  #   temp_str = []
-  #   temp_q = que.split(" ")
-  #   temp_q = temp_q.map do |s|
-  #     s = s.delete(",").delete("!")
-  #   end 
-
-  #      k[1].each do |str|
-  #       if question.count >= 2
-  #         str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
-  #         if str.include?(question[0]) && str.include?(question[1])
-
-  #             temp_str = str.split(" ")
-  #             temp_str = temp_str.map do |s|
-  #               s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
-  #             end
-  #             answer << UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
-  #         end 
-  #       elsif question.count < 2
-  #         str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
-  #         if str.include?(question[0]) 
-  #             temp_str = str.split(" ")
-  #             temp_str = temp_str.map do |s|
-  #               s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
-  #             end
-  #             answer << UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
-  #         end 
-  #       end
-  #      end
-
-  #   end
-  #   end
-
-  #   answer = answer.uniq
-  #   answer = answer.join(",")
-  #   return answer.to_s
-  # end
-
   def level3(lines)
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
@@ -167,7 +112,8 @@ class QuestionController < ApplicationController
     answer = temp_answer1 + ',' + temp_answer2 + ',' + temp_answer3
   end
 
-  def level5(temp_question)
+  def level5(line)
+
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
 
@@ -196,7 +142,6 @@ class QuestionController < ApplicationController
              return answer
           end     
        end
-
     end
     answer
   end
