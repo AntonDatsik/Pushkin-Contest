@@ -60,53 +60,7 @@ class QuestionController < ApplicationController
     answer
   end
 
-  # def level2(temp_question)
-
-  #   file = File.read("db/poems-full.json")
-  #   @hash = JSON.parse(file)
-
-  #   answer = ''
-  #   question = temp_question.split("%word%")
-  #   question = question.map do |i|
-  #     i = UnicodeUtils.downcase(i.delete("!").delete(",").lstrip.rstrip)
-  #   end
-
-  #   temp_str = []
-  #   temp_q = temp_question.split(" ")
-  #   temp_q = temp_q.map do |s|
-  #     s = s.delete(",").delete("!")
-  #   end
-
-  #   @hash.each do |k| 
-  #     k[1].map do |str|
-  #       str = str.delete(".")
-  #       if question.count >= 2
-  #         str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
-  #         if str.include?(question[0]) && str.include?(question[1])
-
-  #             temp_str = str.split(" ")
-  #             temp_str = temp_str.map do |s|
-  #               s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
-  #             end
-  #             answer = UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
-  #             return answer
-  #         end 
-  #       elsif question.count < 2
-  #         str = UnicodeUtils.downcase(str.delete(",").delete("!").delete("."))
-  #         if str.include?(question[0]) 
-  #             temp_str = str.split(" ")
-  #             temp_str = temp_str.map do |s|
-  #               s = UnicodeUtils.downcase(s.delete(",").delete("!").delete("."))
-  #             end
-  #             answer = UnicodeUtils.downcase((temp_str - temp_q)[0].to_s.delete("?").delete("!"))
-  #             return answer
-  #         end 
-  #       end
-  #     end
-  #   end  
-
-  #   answer
-  # end
+  
   def level2(line)
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
@@ -182,7 +136,7 @@ class QuestionController < ApplicationController
     poem = $poems.find {|e| re =~ e["text"]}
     temp_answer1 = re.match(poem["text"])[1]
 
-    poem_text = poem[text]
+    poem_text = poem["text"]
     re = Regexp.new line2.gsub('%WORD%', '([А-Яа-я]+)')
     temp_answer2 = re.match(poem_text)[1]
 
