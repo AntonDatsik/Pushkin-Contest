@@ -113,7 +113,7 @@ class QuestionController < ApplicationController
   end
 
   def level5(line)
-    q = UnicodeUtils.downcase(@q).lstrip.rstrip
+    q = UnicodeUtils.downcase(line).lstrip.rstrip
 
     question = q.split(" ")
 
