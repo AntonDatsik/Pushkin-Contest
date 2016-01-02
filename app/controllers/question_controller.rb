@@ -182,9 +182,9 @@ class QuestionController < ApplicationController
     poem = $poems.find {|e| re =~ e["text"]}
     temp_answer1 = re.match(poem["text"])[1]
 
+    poem_text = poem[text]
     re = Regexp.new line2.gsub('%WORD%', '([А-Яа-я]+)')
-    poem = $poems.find {|e| re =~ e["text"]}
-    temp_answer2 = re.match(poem["text"])[1]
+    temp_answer2 = re.match(poem_text)[1]
 
     answer = temp_answer1 + ',' + temp_answer2
   end
