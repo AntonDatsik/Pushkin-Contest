@@ -192,15 +192,15 @@ class QuestionController < ApplicationController
 
       k[1].each do |str|
         temp_str = str
-        k = 0
+        p = 0
         str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
 
         for i in 0..str.chars.count-1 do
            if str.chars.sort[i] == q.chars.sort[i]
-              k = k + 1
+              p += 1
            end
 
-           if k > 7
+           if p > 7
               answer = temp_str
               return answer
            end
@@ -208,7 +208,6 @@ class QuestionController < ApplicationController
         end
       end
     end
-
   end
 
 end
