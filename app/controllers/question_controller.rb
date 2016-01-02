@@ -174,7 +174,7 @@ class QuestionController < ApplicationController
   def level3(line)
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
-    re = Regexp.new line.gsub('%WORD%', '([А-Яа-я]+)')
+    re = Regexp.new line.gsub('WORD', '([А-Яа-я]+)')
     poem = $poems.find {|e| re =~ e["text"]}
     temp_answer = re.match(poem["text"])
   end
