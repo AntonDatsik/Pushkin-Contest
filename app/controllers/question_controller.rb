@@ -113,8 +113,11 @@ class QuestionController < ApplicationController
   end
 
   def level5(line)
-    q = UnicodeUtils.downcase(line).lstrip.rstrip
+    file = File.read("db/poems-full.json")
+    @hash = JSON.parse(file)
 
+    q = UnicodeUtils.downcase(line).lstrip.rstrip
+    answer = ''
     question = q.split(" ")
 
     @hash.each do |k| 
