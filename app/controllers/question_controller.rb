@@ -13,7 +13,7 @@ class QuestionController < ApplicationController
 
 
   def quiz
-    # render nothing: true
+    render nothing: true
 
     @question = params[:question]
     @id = params[:id]
@@ -25,7 +25,7 @@ class QuestionController < ApplicationController
       @answer = level1(@question)
     when 2
       @answer = level2(@question)
-    when '3'
+    when 3
       @answer = level3(@question)
     when 4
       @answer = level4(@question)
@@ -48,8 +48,7 @@ class QuestionController < ApplicationController
       task_id:  @id
     }
    
-    # Net::HTTP.post_form(uri, parameters) 
-    render json: {answer: @answer}
+    Net::HTTP.post_form(uri, parameters) 
   end
 
   def level1(line)
@@ -171,12 +170,22 @@ class QuestionController < ApplicationController
   #   return answer.to_s
   # end
 
-  def level3(line)
+  def level3(lines)
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
-    re = Regexp.new line.gsub('WORD', '([А-Яа-я]+)')
+    temp = lines.split('\n')
+    line1 = temp[0]
+    line2 = temp[1]
+
+    re = Regexp.new line1.gsub('WORD', '([А-Яа-я]+)')
     poem = $poems.find {|e| re =~ e["text"]}
-    temp_answer = re.match(poem["text"])
+    temp_answer1 = re.match(poem["text"])[1]
+
+    re = Regexp.new line1.gsub('WORD', '([А-Яа-я]+)')
+    poem = $poems.find {|e| re =~ e["text"]}
+    temp_answer2 = re.match(poem["text"])[1]
+
+    answer = temp_answer1 + ',' + temp_answer2
   end
 
   def level4(temp_question)
