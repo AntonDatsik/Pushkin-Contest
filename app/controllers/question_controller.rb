@@ -143,7 +143,7 @@ class QuestionController < ApplicationController
     answer = temp_answer1 + ',' + temp_answer2
   end
 
-  def level4(temp_question)
+  def level4(lines)
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
     temp = lines.split("\n")
@@ -157,7 +157,7 @@ class QuestionController < ApplicationController
     temp_answer1 = re.match(poem["text"])[1]
 
     poem_text = poem["text"]
-    
+
     re = Regexp.new line2.gsub('%WORD%', '([А-Яа-я]+)')
     temp_answer2 = re.match(poem_text)[1]
 
@@ -168,28 +168,14 @@ class QuestionController < ApplicationController
   end
 
   def level5(temp_question)
+    f = File.open( "db/poems.json", "r" )
+    $poems = JSON.load( f )
 
-    file = File.read("db/poems-full.json")
-    @hash = JSON.parse(file)
-
-    answer = ''
-    q = UnicodeUtils.downcase(temp_question).lstrip.rstrip
-
-    question = q.split(" ")
-
-    @hash.each do |k| 
-       k[1].each do |str|
-          if question.count > 2
-             str = UnicodeUtils.downcase(str)
-
-             if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
-                answer = (str.split(" ") - question)[0].delete(",") + "," + (question - str.split(" "))[0].delete(",")  
-                return answer
-             end         
-          end
-       end
-    end
-    answer
+    words = line.scan /[А-Яа-я]+/
+    re = Regexp.new ('(?:' + words.map { |word| line.gsub(word, '([А-Яа-я]*)')}.join('|') + ')')
+    matches = re.match ($poems.find {|e| re =~ e["text"]})["text"]
+    index = matches.to_a.drop(1).index {|x| !x.nil?}
+    "#{matches[index + 1]},#{words[index - 1]}"
   end
 
   def level6(temp_question)
