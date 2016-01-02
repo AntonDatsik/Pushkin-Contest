@@ -173,7 +173,8 @@ class QuestionController < ApplicationController
   def level3(lines)
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
-    temp = lines.split('\n')
+    temp = lines.split("\n")
+
     line1 = temp[0]
     line2 = temp[1]
 
