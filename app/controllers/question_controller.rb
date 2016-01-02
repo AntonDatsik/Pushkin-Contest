@@ -163,7 +163,7 @@ class QuestionController < ApplicationController
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
 
     temp_str = ""
-
+    answer = ''
     @hash.each do |k| 
 
        k[1].each do |str|
