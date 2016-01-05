@@ -204,7 +204,7 @@ class QuestionController < ApplicationController
         sort_part_array = sort_part.chars
 
         i = 0
-        while i < sort_part.count && no_matches_count <= 1 do
+        while i < sort_part.length && no_matches_count <= 1 do
           if q_array[i] == sort_part_array[i]
             no_matches_count += 1
           end
