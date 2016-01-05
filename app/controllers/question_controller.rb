@@ -206,7 +206,9 @@ class QuestionController < ApplicationController
               break
            end
         end
-        if (p < 1) return str
+        if p < 1 
+          return str
+        end
       end
     end
   end
