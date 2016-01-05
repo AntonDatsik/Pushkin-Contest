@@ -192,19 +192,21 @@ class QuestionController < ApplicationController
       k[1].each do |str|
         temp_str = str
         p = 0
-        str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
+        temp_str = UnicodeUtils.downcase(temp_str.delete(",").delete(";")).lstrip.rstrip
 
-        for i in 0..str.chars.count-1 do
-           if str.chars.sort[i] == q.chars.sort[i]
+        sort_str = temp_str.chars.sort
+        sort_q = q.chars.sort
+
+        for i in 0..sort_str.count-1 do
+           if sort_str[i] != sort_q[i]
               p += 1
            end
 
-           if p > 7
-              answer = temp_str
-              return answer
+           if p > 1
+              break
            end
-
         end
+        if (p < 1) return str
       end
     end
   end
