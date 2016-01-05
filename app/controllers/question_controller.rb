@@ -188,7 +188,6 @@ class QuestionController < ApplicationController
 
     q = temp_question.chars.sort.join.lstrip
 
-    return q
     #gsub(/[^0-9А-Яа-я]/, '')
     q_array = q.chars
 
@@ -198,6 +197,7 @@ class QuestionController < ApplicationController
         str_parts = str.split("&")
         sort_part = str_parts[0]
         original_part = str_parts[1]
+
 
         if sort_part.length != q.length
           break
@@ -218,7 +218,7 @@ class QuestionController < ApplicationController
         
 
         if no_matches_count == 1 && i == sort_part.length 
-          return original_part
+          return sort_part
         end
 
       end
