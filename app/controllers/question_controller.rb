@@ -185,7 +185,8 @@ class QuestionController < ApplicationController
     @hash = JSON.parse(file)
 
 
-    q = temp_question.chars.sort.join.gsub(/[^0-9А-Яа-я]/, '')
+    q = temp_question.chars.sort.join.lstrip
+    #gsub(/[^0-9А-Яа-я]/, '')
     q_array = q.chars
 
     @hash.each do |k| 
@@ -200,7 +201,6 @@ class QuestionController < ApplicationController
         end
 
         no_matches_count = 0
-
 
         sort_part_array = sort_part.chars
 
