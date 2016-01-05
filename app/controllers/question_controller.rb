@@ -13,7 +13,7 @@ class QuestionController < ApplicationController
 
 
   def quiz
-    #render nothing: true
+    render nothing: true
 
     @question = params[:question]
     @id = params[:id]
@@ -35,7 +35,7 @@ class QuestionController < ApplicationController
       @answer = level6(@question)
     when 7
       @answer = level7(@question)
-    when '8' 
+    when 8 
       @answer = level8(@question)
     end
     
@@ -48,8 +48,8 @@ class QuestionController < ApplicationController
       task_id:  @id
     }
    
-    #Net::HTTP.post_form(uri, parameters) 
-    render json: {answer: @answer}
+    Net::HTTP.post_form(uri, parameters) 
+    
   end
 
   def level1(line)
