@@ -160,6 +160,7 @@ class QuestionController < ApplicationController
     @hash = JSON.parse(file)
 
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
+    sort_q = q.chars.sort
 
     temp_str = ""
     answer = ''
@@ -169,7 +170,7 @@ class QuestionController < ApplicationController
           temp_str = str
           str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
 
-          if str.chars.sort == q.chars.sort
+          if str.chars.sort == sort_q
              answer = temp_str
              return answer
           end     
@@ -186,6 +187,7 @@ class QuestionController < ApplicationController
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
 
     temp_str = ""
+    sort_q = q.chars.sort
 
     @hash.each do |k| 
 
@@ -195,9 +197,9 @@ class QuestionController < ApplicationController
         temp_str = UnicodeUtils.downcase(temp_str.delete(",").delete(";")).lstrip.rstrip
 
         sort_str = temp_str.chars.sort
-        sort_q = q.chars.sort
 
-        for i in 0..sort_str.count-1 do
+        i = 0
+        while i < sort_str.count && i < sort_q.count do
            if sort_str[i] != sort_q[i]
               p += 1
            end
@@ -205,8 +207,9 @@ class QuestionController < ApplicationController
            if p > 1
               break
            end
+           i++
         end
-        if p < 1 
+        if p == 1 
           return str
         end
       end
