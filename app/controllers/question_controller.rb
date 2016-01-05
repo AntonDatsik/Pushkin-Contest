@@ -186,43 +186,41 @@ class QuestionController < ApplicationController
     @hash = JSON.parse(file)
 
 
-    q = temp_question.chars.sort.join.lstrip
-
-    #gsub(/[^0-9А-Яа-я]/, '')
+    q = temp_question.chars.sort.join.gsub(/[^0-9А-Яа-я]/, '')
     q_array = q.chars
 
     @hash.each do |k| 
       k[1].each do |str|
-        
+
         str_parts = str.split("&")
         sort_part = str_parts[0]
         original_part = str_parts[1]
 
+        # if sort_part.length != q.length
+        #   break
+        # end
 
-        if sort_part.length != q.length
-          break
-        end
+        matches_count = 0
 
-        no_matches_count = 0
 
         sort_part_array = sort_part.chars
 
         i = 0
-        while i < sort_part.length && no_matches_count <= 1 do
-          if q_array[i] == sort_part_array[i]
-            no_matches_count += 1
+        while i < sort_part.length and matches_count <= 6 do
+          if q_array[i] != sort_part_array[i]
+            break
+          else
+            matches_count += 1
           end
-
           i += 1
         end
         
-
-        if no_matches_count == 1 && i == sort_part.length 
-          return sort_part
+        if matches_count >= 6 then
+          return original_part.delete(",").delete(".").delete("!").delete("?")
         end
-
       end
     end
+  'default'
   end
 
 end
