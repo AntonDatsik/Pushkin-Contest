@@ -181,36 +181,40 @@ class QuestionController < ApplicationController
 
   def level8(temp_question)
 
-    file = File.read("db/poems-full.json")
+    file = File.read("db/poems-full-sort.json")
     @hash = JSON.parse(file)
 
-    q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
 
-    temp_str = ""
-    sort_q = q.chars.sort
+    q = temp_question.chars.sort.join.gsub(/[^0-9А-Яа-я]/, '')
 
     @hash.each do |k| 
-
       k[1].each do |str|
-        temp_str = str
-        p = 0
-        temp_str = UnicodeUtils.downcase(temp_str.delete(",").delete(";")).lstrip.rstrip
+        
+        str_parts = str.split("&")
+        sort_part = str_parts[0]
+        original_part = str_parts[1]
 
-        sort_str = temp_str.chars.sort
+        if sort_part.length != q.length
+          break
+        end
+
+        no_matches_count = 0
+
+        q_array = q.chars
+        sort_part_array = sort_part.chars
 
         i = 0
-        while i < sort_str.count && i < sort_q.count do
-           if sort_str[i] != sort_q[i] && sort_str[i] != " " && sort_q[i] != " "
-              p += 1
-           end
+        while i < sort_part.count && no_matches_count <= 1 do
+          if q_array[i] == sort_part_array[i]
+            no_matches_count += 1
+          end
 
-           if p > 1
-              break
-           end
-           i += 1
+          i += 1
         end
-        if p == 1 
-          return str
+        
+
+        if no_matches_count == 1 
+          return original_part
         end
       end
     end
