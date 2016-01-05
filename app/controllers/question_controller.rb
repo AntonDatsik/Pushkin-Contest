@@ -200,7 +200,7 @@ class QuestionController < ApplicationController
 
         i = 0
         while i < sort_str.count && i < sort_q.count do
-           if sort_str[i] != sort_q[i]
+           if sort_str[i] != sort_q[i] && sort_str[i] != " " && sort_q[i] != " "
               p += 1
            end
 
