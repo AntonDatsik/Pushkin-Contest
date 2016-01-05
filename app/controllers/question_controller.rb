@@ -206,7 +206,7 @@ class QuestionController < ApplicationController
         sort_part_array = sort_part.chars
 
         i = 0
-        while i < sort_part.length and matches_count <= 6 do
+        while i < sort_part.length and matches_count <= 7 do
           if q_array[i] != sort_part_array[i]
             break
           else
@@ -215,8 +215,8 @@ class QuestionController < ApplicationController
           i += 1
         end
         
-        if matches_count >= 6 then
-          return original_part.delete(",").delete(".").delete("!").delete("?")
+        if matches_count >= 7 then
+          return original_part.gsub(/[^0-9А-Яа-я' ']/, '')
         end
       end
     end
