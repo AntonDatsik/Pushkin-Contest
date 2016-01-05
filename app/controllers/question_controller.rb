@@ -186,6 +186,7 @@ class QuestionController < ApplicationController
 
 
     q = temp_question.chars.sort.join.gsub(/[^0-9А-Яа-я]/, '')
+    q_array = q.chars
 
     @hash.each do |k| 
       k[1].each do |str|
@@ -200,7 +201,7 @@ class QuestionController < ApplicationController
 
         no_matches_count = 0
 
-        q_array = q.chars
+
         sort_part_array = sort_part.chars
 
         i = 0
