@@ -215,7 +215,7 @@ class QuestionController < ApplicationController
         end
         
 
-        if no_matches_count == 1 
+        if no_matches_count == 1 && i == sort_part.length 
           return original_part
         end
       end
