@@ -207,7 +207,7 @@ class QuestionController < ApplicationController
            if p > 1
               break
            end
-           i++
+           i += 1
         end
         if p == 1 
           return str
