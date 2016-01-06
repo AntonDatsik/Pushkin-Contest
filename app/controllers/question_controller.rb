@@ -195,6 +195,7 @@ class QuestionController < ApplicationController
 
         if matches_count >= 6
           return original_part.gsub(/[^0-9А-Яа-я' ']/, '')
+        end
       end
     end
 
