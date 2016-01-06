@@ -144,6 +144,7 @@ class QuestionController < ApplicationController
     @hash = JSON.parse(file)
 
     q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
+    sorted_q = q.chars.sort
     answer = ''
     temp_str = ""
 
@@ -151,7 +152,7 @@ class QuestionController < ApplicationController
        k[1].each do |str|
           temp_str = str
           str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
-          if str.chars.sort == q.chars.sort
+          if str.chars.sort == sorted_q
              answer = temp_str
              return answer
           end     
@@ -184,8 +185,7 @@ class QuestionController < ApplicationController
         while i < sort_part.length and matches_count <= 6 do
           
           if sort_q[i] != sort_part_array[i]
-            break
-          end
+            break          
           else
             matches_count += 1
           end
