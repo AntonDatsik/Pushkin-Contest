@@ -55,18 +55,21 @@ class QuestionController < ApplicationController
   def level1(line)
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
+    $poems_hash = Hash[$poems.map(&:values).map(&:flatten)]
     
     re = Regexp.new line
-    $poems.find {|e| re =~ e["text"]}["title"]
+    $poems_hash.find {|key, val| re =~ val}[0]
   end
 
   
   def level2(line)
     f = File.open( "db/poems.json", "r" )
     $poems = JSON.load( f )
+    $poems_hash = Hash[$poems.map(&:values).map(&:flatten)]
+    
     re = Regexp.new line.gsub('%WORD%', '([А-Яа-я]+)')
-    poem = $poems.find {|e| re =~ e["text"]}
-    re.match(poem["text"])[1]
+    poem = $poems_hash.find {|key, val| re =~ val}[1]
+    re.match(poem)[1]
   end
 
   def level3(lines)
@@ -116,16 +119,18 @@ class QuestionController < ApplicationController
     file = File.read("db/poems-full.json")
     @hash = JSON.parse(file)
 
-    q = UnicodeUtils.downcase(line).lstrip.rstrip
+    #q = UnicodeUtils.downcase(line).lstrip.rstrip
+    q = line.lstrip.rstrip
     answer = ''
     question = q.split(" ")
 
     @hash.each do |k| 
       k[1].each do |str|
         if question.count > 2
-           str = UnicodeUtils.downcase(str)
+           #str = UnicodeUtils.downcase(str)
            if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
-              answer = (str.split(" ") - question)[0].delete(",") + "," + (question - str.split(" "))[0].delete(",")  
+              str_words = str.split(" ")
+              answer = (str_words - question)[0].delete(",") + "," + (str_words - str.split(" "))[0].delete(",")  
               return answer
            end         
         end
@@ -157,27 +162,43 @@ class QuestionController < ApplicationController
 
   def level7(temp_question)
 
-    file = File.read("db/poems-full.json")
+    file = File.read("db/poems-full-sort.json")
     @hash = JSON.parse(file)
 
-    q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
-    sort_q = q.chars.sort
+    q = temp_question.chars.sort.join.gsub(/[^0-9А-Яа-я]/, '')
+    sort_q = q.chars
 
     temp_str = ""
     answer = ''
     @hash.each do |k| 
+      k[1].each do |str|
+        
+        str_parts = str.split("&")
+        sort_part = str_parts[0]
+        original_part = str_parts[1]
 
-       k[1].each do |str|
-          temp_str = str
-          str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
+        sort_part_array = sort_part.chars
 
-          if str.chars.sort == sort_q
-             answer = temp_str
-             return answer
-          end     
-       end
+        matches_count = 0
+        i = 0
+        while i < sort_part.length and matches_count <= 6 do
+          
+          if sort_q[i] != sort_part_array[i]
+            break
+          end
+          else
+            matches_count += 1
+          end
+          
+          i += 1
+        end
+
+        if matches_count >= 6
+          return original_part.gsub(/[^0-9А-Яа-я' ']/, '')
+      end
     end
-    answer
+
+    'default'
   end
 
   def level8(temp_question)
@@ -201,21 +222,25 @@ class QuestionController < ApplicationController
         # end
 
         matches_count = 0
-
+        no_matches_count = 0
 
         sort_part_array = sort_part.chars
 
         i = 0
-        while i < sort_part.length and matches_count <= 7 do
+        while i < sort_part.length and matches_count <= 6 do
           if q_array[i] != sort_part_array[i]
-            break
+            if no_matches_count != 0
+              break
+            else
+              no_matches_count += 1
+            end
           else
             matches_count += 1
           end
           i += 1
         end
         
-        if matches_count >= 7 then
+        if matches_count >= 6 then
           return original_part.gsub(/[^0-9А-Яа-я' ']/, '')
         end
       end
