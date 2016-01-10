@@ -246,7 +246,7 @@ class QuestionController < ApplicationController
 
         i = 0
         while i < sort_part.length and matches_count <= 6 and no_matches_count < 2 do
-          if sort_q[i] != sort_part_array[i]
+          if q_array[i] != sort_part_array[i]
             no_matches_count += 1        
           else
             matches_count += 1
