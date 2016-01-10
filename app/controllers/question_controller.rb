@@ -151,7 +151,7 @@ class QuestionController < ApplicationController
     @hash.each do |k| 
        k[1].each do |str|
 
-        tr_parts = str.split("&")
+        str_parts = str.split("&")
         sort_part = str_parts[0]
         original_part = str_parts[1]
 
