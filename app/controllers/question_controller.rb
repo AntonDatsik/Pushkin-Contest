@@ -140,20 +140,23 @@ class QuestionController < ApplicationController
   end
 
   def level6(temp_question)
-    file = File.read("db/poems-full.json")
+    file = File.read("db/poems-full-sort.json")
     @hash = JSON.parse(file)
 
-    q = UnicodeUtils.downcase(temp_question).lstrip.rstrip.delete(";").delete(",")
-    sorted_q = q.chars.sort
+    q = temp_question.chars.sort.join.gsub(/[^0-9А-Яа-я]/, '')
+    sorted_q = q.chars
     answer = ''
     temp_str = ""
 
     @hash.each do |k| 
        k[1].each do |str|
-          temp_str = str
-          str = UnicodeUtils.downcase(str.delete(",").delete(";")).lstrip.rstrip
-          if str.chars.sort == sorted_q
-             answer = temp_str
+
+        tr_parts = str.split("&")
+        sort_part = str_parts[0]
+        original_part = str_parts[1]
+
+          if sort_part == sorted_q
+             answer = original_part
              return answer
           end     
        end
