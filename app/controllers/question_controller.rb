@@ -123,7 +123,7 @@ class QuestionController < ApplicationController
     answer = ''
     question = q.split(" ")
 
-    hash.each do |k| 
+    @hash.each do |k| 
       k[1].each do |str|
         if question.count > 2
            str = UnicodeUtils.downcase(str)
