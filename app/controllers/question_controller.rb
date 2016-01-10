@@ -125,9 +125,10 @@ class QuestionController < ApplicationController
 
     @hash.each do |k| 
       k[1].each do |str|
-        word_str = str.split(" ")
+        
         if question.count > 2
            str = UnicodeUtils.downcase(str)
+           word_str = str.split(" ")
            if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
               answer = (word_str - question)[0].delete(",") + "," + (question - word_str)[0].delete(",")  
               return answer
