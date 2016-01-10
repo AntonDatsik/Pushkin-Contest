@@ -119,15 +119,14 @@ class QuestionController < ApplicationController
     file = File.read("db/poems-full.json")
     @hash = JSON.parse(file)
 
-    #q = UnicodeUtils.downcase(line).lstrip.rstrip
-    q = line.lstrip.rstrip
+    q = UnicodeUtils.downcase(line).lstrip.rstrip
     answer = ''
     question = q.split(" ")
 
     @hash.each do |k| 
       k[1].each do |str|
         if question.count > 2
-           #str = UnicodeUtils.downcase(str)
+           str = UnicodeUtils.downcase(str)
            if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
               str_words = str.split(" ")
               answer = (str_words - question)[0].delete(",") + "," + (str_words - str.split(" "))[0].delete(",")  
