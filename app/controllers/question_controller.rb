@@ -129,8 +129,8 @@ class QuestionController < ApplicationController
            str = UnicodeUtils.downcase(str)
            if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
               str_words = str.split(" ")
-              answer = (str_words - question)[0].delete(",") + "," + (str_words - str.split(" "))[0].delete(",")  
-              return answer
+              answer = (str_words - question)[0].delete(",") + "," + (str_words - str.split(" "))[0]
+              return answer.delete(',')
            end         
         end
       end
