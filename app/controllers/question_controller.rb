@@ -155,10 +155,24 @@ class QuestionController < ApplicationController
         sort_part = str_parts[0]
         original_part = str_parts[1]
 
-          if sort_part.chars == sorted_q
-             answer = original_part.gsub(/[^0-9А-Яа-я' ']/, '')
-             return answer
-          end     
+        sort_part_array = sort_part.chars
+
+        matches_count = 0
+        i = 0
+        while i < sort_part.length and matches_count <= 6 do
+          
+          if sorted_q[i] != sort_part_array[i]
+            break          
+          else
+            matches_count += 1
+          end
+          
+          i += 1
+        end
+
+        if matches_count >= 6
+          return original_part.gsub(/[^0-9А-Яа-я' ']/, '')
+        end   
        end
     end
     answer
