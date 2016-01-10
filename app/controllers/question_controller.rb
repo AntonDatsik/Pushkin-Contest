@@ -123,14 +123,13 @@ class QuestionController < ApplicationController
     answer = ''
     question = q.split(" ")
 
-    @hash.each do |k| 
+    hash.each do |k| 
       k[1].each do |str|
         if question.count > 2
            str = UnicodeUtils.downcase(str)
            if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
-              str_words = str.split(" ")
-              answer = (str_words - question)[0].delete(",") + "," + (str_words - str.split(" "))[0]
-              return answer.delete(',')
+              answer = (str.split(" ") - question)[0].delete(",") + "," + (question - str.split(" "))[0].delete(",")  
+              return answer
            end         
         end
       end
