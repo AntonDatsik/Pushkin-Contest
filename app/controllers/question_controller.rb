@@ -126,27 +126,13 @@ class QuestionController < ApplicationController
     @hash.each do |k| 
       k[1].each do |str|
         word_str = str.split(" ")
-        i = 0
-        no_matches_count = 0
-        j = 0
-        while i < word_str.count && no_matches_count < 2 do
-          if question[i].eql?(word_str[i])
-            no_matches_count += 1
-            j = i
-          end
+        if question.count > 2
+           str = UnicodeUtils.downcase(str)
+           if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
+              answer = (word_str - question)[0].delete(",") + "," + (question - word_str)[0].delete(",")  
+              return answer
+           end         
         end
-
-        if i == word_str.count && no_matches_count == 1
-          answer = word_str[j] + ',' + question[j]
-          return answer
-        end
-        # if question.count > 2
-        #    str = UnicodeUtils.downcase(str)
-        #    if (str.include?(question[1]) && str.include?(question[2])) || (str.include?(question[0]) && str.include?(question[1])) || (str.include?(question[0]) && str.include?(question[2]))
-        #       answer = (str.split(" ") - question)[0].delete(",") + "," + (question - str.split(" "))[0].delete(",")  
-        #       return answer
-        #    end         
-        # end
       end
     end
     answer
