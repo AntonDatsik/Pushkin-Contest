@@ -156,7 +156,7 @@ class QuestionController < ApplicationController
         original_part = str_parts[1]
 
           if sort_part == sorted_q
-             answer = original_part
+             answer = original_part.gsub(/[^0-9А-Яа-я' ']/, '')
              return answer
           end     
        end
